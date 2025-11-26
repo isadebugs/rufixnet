@@ -1,6 +1,14 @@
 <?php
+// Incluir configuraciones primero
+include 'includes/config.php';
+include 'includes/auth.php';
+
 // Manejo de rutas amigables
 $request_url = isset($_GET['url']) ? $_GET['url'] : '';
+
+// DEBUG - Mostrar información (puedes eliminar esto después)
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 // Definir rutas
 $routes = [
@@ -23,18 +31,21 @@ $routes = [
     'estadisticas' => 'modules/estadisticas/index.php'
 ];
 
-// Encontrar la ruta correspondiente
-if (array_key_exists($request_url, $routes)) {
-    include $routes[$request_url];
-} else {
-    // Si no encuentra la ruta, mostrar 404
-    http_response_code(404);
-    include '404.php'; // Puedes crear esta página
+// Si hay una ruta específica solicitada, cargarla
+if (!empty($request_url) && array_key_exists($request_url, $routes)) {
+    $file_to_load = $routes[$request_url];
+    
+    // Verificar que el archivo existe antes de incluirlo
+    if (file_exists($file_to_load)) {
+        include $file_to_load;
+    } else {
+        http_response_code(404);
+        echo "<h1>Error 404 - Archivo no encontrado: $file_to_load</h1>";
+    }
+    exit();
 }
-include 'includes/config.php';
-include 'includes/auth.php';
 
-// Redirigir al dashboard si está logueado, sino al login
+// Si no hay ruta específica, redirigir según autenticación
 if (isLoggedIn()) {
     header("Location: dashboard.php");
 } else {
