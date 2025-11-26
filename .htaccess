@@ -1,10 +1,13 @@
+Options +FollowSymLinks -MultiViews
 RewriteEngine On
 RewriteBase /rufixnet/
 
-# Permitir acceso a archivos reales
-RewriteCond %{REQUEST_FILENAME} -f [OR]
-RewriteCond %{REQUEST_FILENAME} -d
-RewriteRule ^ - [L]
+# Redirección para testing - DESCOMENTA TEMPORALMENTE
+# RewriteRule ^test$ index.php?url=test [L]
 
-# Redireccionar todo lo demás a index.php
-RewriteRule ^(.*)$ index.php?url=$1 [QSA,L] 
+# Si la URL solicitada no es un archivo existente
+RewriteCond %{REQUEST_FILENAME} !-f
+# Si la URL solicitada no es un directorio existente  
+RewriteCond %{REQUEST_FILENAME} !-d
+# Redirigir a index.php con la URL como parámetro
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
