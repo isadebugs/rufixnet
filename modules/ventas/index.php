@@ -1,10 +1,6 @@
 <?php
-$page_title = "Ventas - RUFIXNET";
-include '../../includes/config.php';
-include '../../includes/auth.php';
-checkRole(['admin', 'ventas']);
-include '../../includes/header.php';
-include '../../includes/sidebar.php';
+// ELIMINAR TODOS LOS INCLUDES - YA SE CARGAN DESDE index.php
+// Solo el contenido del módulo
 
 // Procesar eliminación
 if (isset($_GET['delete_id'])) {
@@ -28,7 +24,7 @@ if (isset($_GET['delete_id'])) {
         $_SESSION['error_message'] = "Error al eliminar la venta: " . $e->getMessage();
     }
     
-    header("Location: index.php");
+    header("Location: index.php?url=ventas");
     exit();
 }
 
@@ -74,7 +70,7 @@ $clientes = $pdo->query($sql_clientes)->fetchAll();
     <div class="content-header">
         <h1>Ventas</h1>
         <div class="header-actions">
-            <a href="crear.php" class="btn btn-primary">Nueva Venta</a>
+            <a href="index.php?url=ventas/crear" class="btn btn-primary">Nueva Venta</a>
         </div>
     </div>
 
@@ -90,6 +86,7 @@ $clientes = $pdo->query($sql_clientes)->fetchAll();
     <!-- Filtros -->
     <div class="filters">
         <form method="GET" class="filter-grid">
+            <input type="hidden" name="url" value="ventas">
             <div class="form-group">
                 <label for="fecha">Filtrar por fecha:</label>
                 <input type="date" id="fecha" name="fecha" value="<?php echo isset($_GET['fecha']) ? $_GET['fecha'] : ''; ?>">
@@ -107,7 +104,7 @@ $clientes = $pdo->query($sql_clientes)->fetchAll();
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-secondary">Filtrar</button>
-                <a href="index.php" class="btn btn-secondary">Limpiar</a>
+                <a href="index.php?url=ventas" class="btn btn-secondary">Limpiar</a>
             </div>
         </form>
     </div>
@@ -119,7 +116,7 @@ $clientes = $pdo->query($sql_clientes)->fetchAll();
                 <div class="empty-state-icon">💰</div>
                 <h3>No hay ventas registradas</h3>
                 <p>Comienza registrando tu primera venta.</p>
-                <a href="crear.php" class="btn btn-primary">Registrar Venta</a>
+                <a href="index.php?url=ventas/crear" class="btn btn-primary">Registrar Venta</a>
             </div>
         <?php else: ?>
             <table class="data-table">
@@ -156,8 +153,8 @@ $clientes = $pdo->query($sql_clientes)->fetchAll();
                         <td><?php echo formatMoney($venta['precio_final']); ?></td>
                         <td><?php echo formatDate($venta['fecha_venta']); ?></td>
                         <td class="actions">
-                            <a href="ver.php?id=<?php echo $venta['id']; ?>" class="btn btn-sm btn-secondary">Ver</a>
-                            <a href="index.php?delete_id=<?php echo $venta['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de eliminar esta venta?')">Eliminar</a>
+                            <a href="index.php?url=ventas/ver&id=<?php echo $venta['id']; ?>" class="btn btn-sm btn-secondary">Ver</a>
+                            <a href="index.php?url=ventas&delete_id=<?php echo $venta['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de eliminar esta venta?')">Eliminar</a>
                         </td>
                     </tr>
                     <?php endforeach; ?>
@@ -166,5 +163,3 @@ $clientes = $pdo->query($sql_clientes)->fetchAll();
         <?php endif; ?>
     </div>
 </main>
-
-<?php include '../../includes/footer.php'; ?>
