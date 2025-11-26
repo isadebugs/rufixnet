@@ -1,9 +1,9 @@
 <?php
 // Configuración de la base de datos
 define('DB_HOST', 'localhost');
-define('DB_USER', 'root'); // Cambiar por tu usuario
-define('DB_PASS', ''); // Cambiar por tu contraseña
-define('DB_NAME', 'rufixnet');
+define('DB_USER', 'rufixser_isapro');
+define('DB_PASS', ';hD3)#jTsCkN');
+define('DB_NAME', 'rufixser_rufixnet');
 
 // Configuración de la aplicación
 define('APP_NAME', 'RUFIXNET');
