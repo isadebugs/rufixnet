@@ -1,25 +1,47 @@
 <?php
-// Configuración de la base de datos
-define('DB_HOST', 'localhost');
-define('DB_USER', 'rufixser_isapro');
-define('DB_PASS', ';hD3)#jTsCkN');
-define('DB_NAME', 'rufixser_rufixnet');
+// VERIFICAR SI LAS CONSTANTES YA EXISTEN ANTES DE DEFINIRLAS
+if (!defined('DB_HOST')) {
+    define('DB_HOST', 'localhost');
+}
 
-// Configuración de la aplicación
-define('APP_NAME', 'RUFIXNET');
-define('UPLOAD_PATH', __DIR__ . '/../uploads/');
-define('MAX_FILE_SIZE', 5 * 1024 * 1024); // 5MB
+if (!defined('DB_USER')) {
+    define('DB_USER', 'rufixser_isapro');
+}
 
-// Iniciar sesión
-session_start();
+if (!defined('DB_PASS')) {
+    define('DB_PASS', ';hD3)#jTsCkN');
+}
 
-// Conexión a la base de datos
-try {
-    $pdo = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4", DB_USER, DB_PASS);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-} catch(PDOException $e) {
-    die("ERROR: No se pudo conectar a la base de datos. " . $e->getMessage());
+if (!defined('DB_NAME')) {
+    define('DB_NAME', 'rufixser_rufixnet');
+}
+
+if (!defined('APP_NAME')) {
+    define('APP_NAME', 'RUFIXNET');
+}
+
+if (!defined('UPLOAD_PATH')) {
+    define('UPLOAD_PATH', __DIR__ . '/../uploads/');
+}
+
+if (!defined('MAX_FILE_SIZE')) {
+    define('MAX_FILE_SIZE', 5 * 1024 * 1024); // 5MB
+}
+
+// Iniciar sesión solo si no está activa
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// VERIFICAR SI LA CONEXIÓN YA EXISTE ANTES DE CREARLA
+if (!isset($pdo)) {
+    try {
+        $pdo = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4", DB_USER, DB_PASS);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+    } catch(PDOException $e) {
+        die("ERROR: No se pudo conectar a la base de datos. " . $e->getMessage());
+    }
 }
 
 // VERIFICAR SI LA FUNCIÓN YA EXISTE ANTES DE DECLARARLA
