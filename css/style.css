@@ -655,3 +655,8 @@ body {
     background-color: var(--primary-blue);
     color: white;
 }
+
+/* DEBUG TEMPORAL */
+.app-container {
+    background: red !important;
+}
