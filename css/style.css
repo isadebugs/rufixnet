@@ -676,21 +676,19 @@ html {
 }
 
 /* =========================================== */
-/* NUCLEAR CUALQUIER FONDO ROJO RESIDUAL */
+/* GARANTIZAR FONDO GRIS - SIN ROJO */
 /* =========================================== */
-body[style*="red"],
-body[style*="#f00"],
-body[style*="#ff0000"],
-body[style*="rgb(255"],
-body[style*="rgb(255, 0, 0)"],
-body[style*="rgba(255"] {
+body, html {
     background-color: #f5f5f5 !important;
     background: #f5f5f5 !important;
 }
 
-.app-container[style*="red"],
-.app-container[style*="#f00"],
-.app-container[style*="#ff0000"] {
+.app-container {
     background-color: transparent !important;
     background: transparent !important;
+}
+
+.main-content {
+    background-color: white !important;
+    background: white !important;
 }
