@@ -1,10 +1,6 @@
 <?php
-$page_title = "Proveedores - RUFIXNET";
-include '../../includes/config.php';
-include '../../includes/auth.php';
-checkRole(['admin', 'compras']);
-include '../../includes/header.php';
-include '../../includes/sidebar.php';
+// ELIMINA TODOS LOS INCLUDES - YA SE CARGAN DESDE index.php
+// Solo el contenido del módulo
 
 // Procesar eliminación
 if (isset($_GET['delete_id'])) {
@@ -21,15 +17,12 @@ if (isset($_GET['delete_id'])) {
         $_SESSION['error_message'] = "Error al eliminar el proveedor: " . $e->getMessage();
     }
     
-    header("Location: index.php");
+    header("Location: index.php?url=proveedores");
     exit();
 }
 
 // Obtener proveedores
-$sql = "SELECT p.*, u.nombre as usuario_creador 
-        FROM proveedores p 
-        LEFT JOIN usuarios u ON p.usuario_creacion = u.id 
-        ORDER BY p.fecha_creacion DESC";
+$sql = "SELECT * FROM proveedores ORDER BY fecha_creacion DESC";
 $proveedores = $pdo->query($sql)->fetchAll();
 ?>
 
@@ -37,7 +30,7 @@ $proveedores = $pdo->query($sql)->fetchAll();
     <div class="content-header">
         <h1>Proveedores</h1>
         <div class="header-actions">
-            <a href="crear.php" class="btn btn-primary">Nuevo Proveedor</a>
+            <a href="index.php?url=proveedores/crear" class="btn btn-primary">Nuevo Proveedor</a>
         </div>
     </div>
 
@@ -56,8 +49,8 @@ $proveedores = $pdo->query($sql)->fetchAll();
             <div class="empty-state">
                 <div class="empty-state-icon">🏢</div>
                 <h3>No hay proveedores registrados</h3>
-                <p>Comienza agregando tu primer proveedor.</p>
-                <a href="crear.php" class="btn btn-primary">Agregar Proveedor</a>
+                <p>Comienza registrando tu primer proveedor.</p>
+                <a href="index.php?url=proveedores/crear" class="btn btn-primary">Registrar Proveedor</a>
             </div>
         <?php else: ?>
             <table class="data-table">
@@ -88,8 +81,8 @@ $proveedores = $pdo->query($sql)->fetchAll();
                         </td>
                         <td><?php echo formatDate($proveedor['fecha_creacion']); ?></td>
                         <td class="actions">
-                            <a href="editar.php?id=<?php echo $proveedor['id']; ?>" class="btn btn-sm btn-secondary">Editar</a>
-                            <a href="index.php?delete_id=<?php echo $proveedor['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de eliminar este proveedor?')">Eliminar</a>
+                            <a href="index.php?url=proveedores/crear&id=<?php echo $proveedor['id']; ?>" class="btn btn-sm btn-secondary">Editar</a>
+                            <a href="index.php?url=proveedores&delete_id=<?php echo $proveedor['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de eliminar este proveedor?')">Eliminar</a>
                         </td>
                     </tr>
                     <?php endforeach; ?>
@@ -98,5 +91,3 @@ $proveedores = $pdo->query($sql)->fetchAll();
         <?php endif; ?>
     </div>
 </main>
-
-<?php include '../../includes/footer.php'; ?>
