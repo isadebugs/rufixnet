@@ -5,10 +5,6 @@ define('BASE_PATH', dirname(__FILE__) . '/');
 // Manejo de rutas amigables
 $request_url = isset($_GET['url']) ? $_GET['url'] : '';
 
-// DEBUG - Mostrar información (puedes eliminar esto después)
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 // Definir rutas
 $routes = [
     '' => 'dashboard.php',
@@ -32,9 +28,27 @@ $routes = [
 
 // Si hay una ruta específica solicitada, cargarla
 if (!empty($request_url) && array_key_exists($request_url, $routes)) {
-    // Incluir archivos base PRIMERO con rutas absolutas
+    // INCLUIR ARCHIVOS BASE PRIMERO
     include BASE_PATH . 'includes/config.php';
     include BASE_PATH . 'includes/auth.php';
+    
+    // VERIFICAR SI EL USUARIO ESTÁ LOGUEADO
+    if (!isLoggedIn() && $request_url != 'login') {
+        header("Location: index.php?url=login");
+        exit();
+    }
+    
+    // SI ES LOGIN Y YA ESTÁ LOGUEADO, REDIRIGIR AL DASHBOARD
+    if ($request_url == 'login' && isLoggedIn()) {
+        header("Location: index.php?url=dashboard");
+        exit();
+    }
+    
+    // PARA PÁGINAS QUE NO SON LOGIN/LOGOUT, INCLUIR DISEÑO COMPLETO
+    if ($request_url != 'login' && $request_url != 'logout') {
+        include BASE_PATH . 'includes/header.php';
+        include BASE_PATH . 'includes/sidebar.php';
+    }
     
     $file_to_load = $routes[$request_url];
     
@@ -45,6 +59,11 @@ if (!empty($request_url) && array_key_exists($request_url, $routes)) {
         http_response_code(404);
         echo "<h1>Error 404 - Archivo no encontrado: $file_to_load</h1>";
     }
+    
+    // PARA PÁGINAS QUE NO SON LOGIN/LOGOUT, INCLUIR FOOTER
+    if ($request_url != 'login' && $request_url != 'logout') {
+        include BASE_PATH . 'includes/footer.php';
+    }
     exit();
 }
 
@@ -53,9 +72,9 @@ include BASE_PATH . 'includes/config.php';
 include BASE_PATH . 'includes/auth.php';
 
 if (isLoggedIn()) {
-    header("Location: dashboard.php");
+    header("Location: index.php?url=dashboard");
 } else {
-    header("Location: login.php");
+    header("Location: index.php?url=login");
 }
 exit();
 ?>
