@@ -655,6 +655,3 @@ body {
     background-color: var(--primary-blue);
     color: white;
 }
-
-/* ELIMINAR ESTA LÍNEA - DEBUG TEMPORAL */
-/* .app-container { background: red !important; } */
