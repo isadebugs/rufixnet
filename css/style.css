@@ -255,7 +255,7 @@ body {
 
 .content-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* CORREGIDO: between → space-between */
     align-items: center;
     margin-bottom: 2rem;
     flex-wrap: wrap;
@@ -521,7 +521,7 @@ body {
 
 .product-item-header {
     display: flex;
-    justify-content: between;
+    justify-content: space-between; /* CORREGIDO: between → space-between */
     align-items: center;
     margin-bottom: 1rem;
 }
@@ -656,7 +656,5 @@ body {
     color: white;
 }
 
-/* DEBUG TEMPORAL */
-.app-container {
-    background: red !important;
-}
+/* ELIMINAR ESTA LÍNEA - DEBUG TEMPORAL */
+/* .app-container { background: red !important; } */
