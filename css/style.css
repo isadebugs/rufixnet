@@ -655,33 +655,3 @@ body {
     background-color: var(--primary-blue);
     color: white;
 }
-
-/* =========================================== */
-/* ELIMINAR CUALQUIER FONDO ROJO */
-/* =========================================== */
-
-/* Reset de fondo rojo en TODOS los elementos */
-* {
-    background-color: transparent !important;
-    background: transparent !important;
-}
-
-/* Fondo correcto para el body */
-body {
-    background-color: #f5f5f5 !important;
-    background: #f5f5f5 !important;
-}
-
-/* Fondo correcto para el contenedor principal */
-.app-container {
-    background-color: transparent !important;
-    background: transparent !important;
-}
-
-/* Si hay algún otro elemento con fondo rojo */
-[style*="background: red"],
-[style*="background-color: red"],
-[style*="red"] {
-    background-color: transparent !important;
-    background: transparent !important;
-}
